@@ -36,6 +36,8 @@ public class UserProcessThread extends Thread {
 	                ex.printStackTrace();
 	            }
 	        }
+	        
+	        VMsim.finishedProcesses++;
 		} catch (Exception e) {
 			System.out.println("Thread " +  threadName + " interrupted.");
 		}

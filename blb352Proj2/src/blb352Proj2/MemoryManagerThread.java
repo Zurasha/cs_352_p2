@@ -10,10 +10,14 @@ public class MemoryManagerThread extends Thread {
 	
 	public void run() {
 		try {
-			// Open the file to get the information to be processed
+			// If the page is in the main memory output message, access mainMemory Vmsim.mainMemory
+			while (VMsim.finishedProcesses < VMsim.userProcessCount) {
+				
+			}
 		} catch (Exception e) {
 			System.out.println("Thread " +  threadName + " interrupted.");
 		}
+        VMsim.finishedProcesses++;
 	}
 	
 	public void start() {

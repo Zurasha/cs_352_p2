@@ -13,9 +13,13 @@ public class FaultHandlerThread extends Thread {
 	public void run() {
 		try {
 			// Handle a fault
+			while (VMsim.finishedProcesses < VMsim.userProcessCount) {
+				
+			}
 		} catch (Exception e) {
 			System.out.println("Thread " +  threadName + " interrupted.");
 		}
+        VMsim.finishedProcesses++;
 	}
 	
 	public void start() {

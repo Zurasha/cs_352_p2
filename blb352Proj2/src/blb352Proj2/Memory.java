@@ -9,6 +9,9 @@ public class Memory {
 	private LinkedList<Frame> LRUFrames;
 	private ArrayList<Frame> frameList;
 	
+	/*
+	 * Creates a "physical" memory object
+	 */
 	public Memory(int size, int count) {
 		frameSize = size;
 		frameCount = count;
@@ -23,5 +26,37 @@ public class Memory {
 	public boolean isFrameInUse(int address) {
 		int index = address/frameSize;
 		return frameList.get(index).isInUse();
+	}
+
+	public int getFrameSize() {
+		return frameSize;
+	}
+
+	public void setFrameSize(int frameSize) {
+		this.frameSize = frameSize;
+	}
+
+	public int getFrameCount() {
+		return frameCount;
+	}
+
+	public void setFrameCount(int frameCount) {
+		this.frameCount = frameCount;
+	}
+
+	public LinkedList<Frame> getLRUFrames() {
+		return LRUFrames;
+	}
+
+	public void setLRUFrames(LinkedList<Frame> lRUFrames) {
+		LRUFrames = lRUFrames;
+	}
+
+	public ArrayList<Frame> getFrameList() {
+		return frameList;
+	}
+
+	public void setFrameList(ArrayList<Frame> frameList) {
+		this.frameList = frameList;
 	}
 }
