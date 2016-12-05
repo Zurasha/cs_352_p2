@@ -28,7 +28,7 @@ public class UserProcessThread extends Thread {
 	            	if (line.length() > 0) { // Make sure there is an address in the line
 	            		address = Integer.parseInt(line);
 	            		MemoryManagerThread memMan = (MemoryManagerThread) VMsim.threadMap.get("memory_manager");
-	            		memMan.handleAddress(address);
+	            		memMan.handleAddress(address, userProcessNumber);
 	            	}
 	            }
 	        } catch (IOException e) {

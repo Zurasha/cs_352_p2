@@ -3,16 +3,16 @@ package blb352Proj2;
 public class FaultHandlerThread extends Thread {
 	private Thread t;
 	private String threadName;
-	public Boolean active;
+	public Boolean inUse;
 	
 	public FaultHandlerThread(String name) {
 		threadName = name;
-		active = false;
+		inUse = false;
 	}
 	
 	public void run() {
 		try {
-			// Handle a fault
+			// Needs to keep running till all user processes have been completed
 			while (VMsim.finishedProcesses < VMsim.userProcessCount) {
 				
 			}
@@ -31,6 +31,16 @@ public class FaultHandlerThread extends Thread {
 	}
 	
 	public void handle(int index, int offset) {
+		inUse = true;
 		
+		inUse = false;
+	}
+
+	public Boolean getInUse() {
+		return inUse;
+	}
+
+	public void setInUse(Boolean inUse) {
+		this.inUse = inUse;
 	}
 }
