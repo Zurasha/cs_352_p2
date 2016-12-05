@@ -19,6 +19,7 @@ public class FaultHandlerThread extends Thread {
 		} catch (Exception e) {
 			System.out.println("Thread " +  threadName + " interrupted.");
 		}
+        // Adds to the numbers of completed processes
         VMsim.finishedProcesses++;
 	}
 	
@@ -27,5 +28,9 @@ public class FaultHandlerThread extends Thread {
 			t = new Thread (this, threadName);
 			t.start();
 		}
+	}
+	
+	public void handle(int index, int offset) {
+		
 	}
 }

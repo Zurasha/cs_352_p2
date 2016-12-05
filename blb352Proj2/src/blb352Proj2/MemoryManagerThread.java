@@ -17,6 +17,7 @@ public class MemoryManagerThread extends Thread {
 		} catch (Exception e) {
 			System.out.println("Thread " +  threadName + " interrupted.");
 		}
+        // Adds to the numbers of completed processes
         VMsim.finishedProcesses++;
 	}
 	
@@ -24,6 +25,18 @@ public class MemoryManagerThread extends Thread {
 		if (t == null) {
 			t = new Thread (this, threadName);
 			t.start();
+		}
+	}
+	
+	public void handleAddress(int address) {
+		int index = address/VMsim.mainMemory.getFrameSize();
+		int offset = address % VMsim.mainMemory.getFrameSize();
+		
+		if (VMsim.mainMemory.isFrameInUse(index)) {
+			
+		} else {
+			FaultHandlerThread faultHan = (FaultHandlerThread) VMsim.threadMap.get("fault_handler");
+			faultHan.handle(index, offset);
 		}
 	}
 }

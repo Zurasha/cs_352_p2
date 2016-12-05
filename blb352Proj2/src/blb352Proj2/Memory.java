@@ -23,8 +23,7 @@ public class Memory {
 		}
 	}
 	
-	public boolean isFrameInUse(int address) {
-		int index = address/frameSize;
+	public boolean isFrameInUse(int index) {
 		return frameList.get(index).isInUse();
 	}
 

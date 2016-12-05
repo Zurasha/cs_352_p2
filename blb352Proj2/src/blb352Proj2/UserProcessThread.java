@@ -22,8 +22,14 @@ public class UserProcessThread extends Thread {
 	        try {
 	            br = new BufferedReader(new FileReader("trace_" + userProcessNumber + ".txt"));
 	            String line;
+	            int address;
 	            while ((line = br.readLine()) != null) {
 	            	// For each simulate accessing address
+	            	if (line.length() > 0) { // Make sure there is an address in the line
+	            		address = Integer.parseInt(line);
+	            		MemoryManagerThread memMan = (MemoryManagerThread) VMsim.threadMap.get("memory_manager");
+	            		memMan.handleAddress(address);
+	            	}
 	            }
 	        } catch (IOException e) {
 	            e.printStackTrace();
@@ -36,7 +42,7 @@ public class UserProcessThread extends Thread {
 	                ex.printStackTrace();
 	            }
 	        }
-	        
+	        // Adds to the numbers of completed processes
 	        VMsim.finishedProcesses++;
 		} catch (Exception e) {
 			System.out.println("Thread " +  threadName + " interrupted.");
