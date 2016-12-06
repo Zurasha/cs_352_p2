@@ -51,10 +51,10 @@ public class MemoryManagerThread extends Thread {
 		}
 		// Check if the address hits
 		if (pageHit) {
-			System.out.println(processName + " ");
+			System.out.println(processName + " accesses address x (page number = p, page offset=d) in main memory (frame number = f). ");
 		} else {
 			FaultHandlerThread faultHandler = (FaultHandlerThread) VMsim.threadMap.get("fault_handler");
-			faultHandler.handle(address, processName);
+			faultHandler.handle(page, offset, processName);
 		}
 		return true;
 	}
