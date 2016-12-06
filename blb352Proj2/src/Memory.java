@@ -34,9 +34,9 @@ public class Memory {
 		this.frameCount = frameCount;
 	}
 	
-	public boolean checkPageIfAvailable(int index) {
+	public boolean checkPageIfAvailable(int page) {
 		for (int i = 0; i < frameCount; i++) {
-			if (frameList[i].getPageNumber() == index) {
+			if (frameList[i].getPageNumber() == page) {
 				frameList[i].setInserted(new Date());
 				return true;
 			}
