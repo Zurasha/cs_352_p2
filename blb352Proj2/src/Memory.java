@@ -34,16 +34,36 @@ public class Memory {
 		this.frameCount = frameCount;
 	}
 	
-	public boolean isFrameInUse(int index) {
-		return frameList[index].isInUse();
+	public boolean checkPageIfAvailable(int index) {
+		for (int i = 0; i < frameCount; i++) {
+			if (frameList[i].getPageNumber() == index) {
+				frameList[i].setInserted(new Date());
+				return true;
+			}
+		}
+		return false;
 	}
 	
-	private void FrameReplace(int page) {
+	/**
+	 * Returns true if the frame replaced was free else false if none free
+	 * @param page
+	 * @return boolean
+	 */
+	public swapFrameValue FrameReplace(int page) {
 		int index = findLRUFrame();
+		swapFrameValue value = new swapFrameValue(index, false);
+		if (frameList[index].getPageNumber() < 0) {
+			value.setWasFree(true);
+		}
 		frameList[index].setInserted(new Date());
 		frameList[index].setPageNumber(page);
+		return value;
 	}
 	
+	/**
+	 * Finds the least resently used frame and returns the index
+	 * @return int
+	 */
 	private int findLRUFrame() {
 		int replaceIndex = 0;
 		Date LRU = new Date();

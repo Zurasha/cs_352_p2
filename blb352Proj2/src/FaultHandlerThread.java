@@ -1,11 +1,11 @@
 public class FaultHandlerThread extends Thread {
 	private Thread t;
 	private String threadName;
-	public Boolean inUse;
+	public Memory mainMemory;
 	
 	public FaultHandlerThread(String name) {
 		threadName = name;
-		inUse = false;
+		mainMemory = VMsim.mainMemory;
 	}
 	
 	public void run() {
@@ -28,17 +28,32 @@ public class FaultHandlerThread extends Thread {
 		}
 	}
 	
-	public void handle(int index, int offset) {
-		inUse = true;
+	public void handle(int address, String processName) {
+		int page = 0, offset = 0;
+		String message = "";
+		System.out.println(); // Not found in main memory
 		
-		inUse = false;
+		synchronized (mainMemory) {
+			page = address / mainMemory.getFrameSize();
+			offset = address % mainMemory.getFrameSize();
+			swapFrameValue swapValue = mainMemory.FrameReplace(page);
+			
+			if (swapValue.isWasFree()) {
+				message = ""; // Add free frame replace message
+			} else {
+				message = ""; // Add no free replace message
+			}
+			simulateSwap(processName, swapValue.getFrameIndex(), page);
+		}
 	}
-
-	public Boolean getInUse() {
-		return inUse;
-	}
-
-	public void setInUse(Boolean inUse) {
-		this.inUse = inUse;
+	
+	private void simulateSwap(String processName, int frameIndex, int page) {
+		try {
+			System.out.println();
+			t.sleep(1000);
+			System.out.println();
+		} catch (InterruptedException e) {
+			return;
+		}
 	}
 }

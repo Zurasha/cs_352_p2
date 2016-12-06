@@ -5,7 +5,7 @@ public class Frame {
 	private int byteStart;
 	private int byteEnd;
 	private int pageNumber;
-	private Date inserted;
+	private Date lastUse;
 	private boolean inUse;
 	
 	public Frame(int number, int start, int end) {
@@ -13,7 +13,7 @@ public class Frame {
 		byteStart = start;
 		byteEnd = end;
 		pageNumber = -1;
-		inserted = new Date();
+		lastUse = new Date();
 		inUse = false;
 	}
 
@@ -58,10 +58,10 @@ public class Frame {
 	}
 
 	public Date getInserted() {
-		return inserted;
+		return lastUse;
 	}
 
 	public void setInserted(Date inserted) {
-		this.inserted = inserted;
+		this.lastUse = inserted;
 	}
 }

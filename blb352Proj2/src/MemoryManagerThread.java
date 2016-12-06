@@ -3,9 +3,11 @@
 public class MemoryManagerThread extends Thread {
 	private Thread t;
 	private String threadName;
+	private Memory mainMemory;
 	
 	public MemoryManagerThread(String name) {
 		threadName = name;
+		mainMemory = VMsim.mainMemory;
 	}
 	
 	public void run() {
@@ -34,20 +36,25 @@ public class MemoryManagerThread extends Thread {
 	 * @param processName
 	 */
 	public boolean handleAddress(int address, String processName) {
-		int page = address/VMsim.mainMemory.getFrameSize(); // Check if address divided by page/frame size is > page/frame size if so break
-		int offset = address % VMsim.mainMemory.getFrameSize();
-		
-		if (page > VMsim.pageCount) {
-			return false;
+		int page = 0, offset = 0;
+		boolean pageHit = false;
+		synchronized (mainMemory) {
+			page = address / mainMemory.getFrameSize();
+			offset = address % mainMemory.getFrameSize();
+			
+			// Check if address divided by page/frame size is > page/frame size if so break
+			if (page > VMsim.pageCount) {
+				return false;
+			}
+			
+			pageHit = mainMemory.checkPageIfAvailable(page);
 		}
-		
-		if (VMsim.mainMemory.isFrameInUse(page)) {
-			System.out.println(processName);
+		// Check if the address hits
+		if (pageHit) {
+			System.out.println(processName + " ");
 		} else {
-			FaultHandlerThread faultHan = (FaultHandlerThread) VMsim.threadMap.get("fault_handler");
-			// Delay until the faultHandler is ready to handle another thread
-			while (faultHan.getInUse()) {}
-			faultHan.handle(page, offset);
+			FaultHandlerThread faultHandler = (FaultHandlerThread) VMsim.threadMap.get("fault_handler");
+			faultHandler.handle(address, processName);
 		}
 		return true;
 	}
