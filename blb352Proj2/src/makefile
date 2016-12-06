@@ -5,10 +5,13 @@ JC = javac
         $(JC) $(JFLAGS) $*.java
 
 CLASSES = \
-	Foo.java \
-	Blah.java \
-	Library.java \
-	Main.java 
+	FaultHandlerThread.java \
+	Frame.java \
+	Memory.java \
+	MemoryManagerThread.java \
+	SwapFrameValue.java \
+	UserProcessThread.java \
+	VMsim.java
 
 default: classes
 

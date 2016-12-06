@@ -49,9 +49,9 @@ public class Memory {
 	 * @param page
 	 * @return boolean
 	 */
-	public swapFrameValue FrameReplace(int page) {
+	public SwapFrameValue FrameReplace(int page) {
 		int index = findLRUFrame();
-		swapFrameValue value = new swapFrameValue(index, false);
+		SwapFrameValue value = new SwapFrameValue(index, false);
 		if (frameList[index].getPageNumber() < 0) {
 			value.setWasFree(true);
 		}

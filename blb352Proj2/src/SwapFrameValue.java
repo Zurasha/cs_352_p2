@@ -1,9 +1,9 @@
 
-public class swapFrameValue {
+public class SwapFrameValue {
 	private int frameIndex;
 	private boolean wasFree;
 	
-	public swapFrameValue(int index, boolean status) {
+	public SwapFrameValue(int index, boolean status) {
 		frameIndex = index;
 		wasFree = status;
 	}

@@ -33,7 +33,7 @@ public class FaultHandlerThread extends Thread {
 		System.out.println(processName + " accesses address x (page number = p, page offset = d) not in main memory."); // Not found in main memory
 		
 		synchronized (mainMemory) {
-			swapFrameValue swapValue = mainMemory.FrameReplace(page);
+			SwapFrameValue swapValue = mainMemory.FrameReplace(page);
 			
 			if (swapValue.isWasFree()) {
 				message = processName + " finds a free frame in main memory (frame number = f)."; // Add free frame replace message
