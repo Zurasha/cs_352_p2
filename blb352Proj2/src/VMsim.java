@@ -1,5 +1,3 @@
-package blb352Proj2;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,7 +23,7 @@ public class VMsim {
 		threadMap.putIfAbsent("fault_handler", new FaultHandlerThread("fault_handler"));
 		
 		for (int i = 1; i <= userProcessCount; i++) {
-			threadMap.putIfAbsent("user_process_" + i, new UserProcessThread("user_process_" + i, i));
+			threadMap.putIfAbsent("process_" + i, new UserProcessThread("process_" + i, i));
 		}
 		
 		Iterator<String> iter = threadMap.keySet().iterator();

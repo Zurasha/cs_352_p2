@@ -1,5 +1,3 @@
-package blb352Proj2;
-
 public class FaultHandlerThread extends Thread {
 	private Thread t;
 	private String threadName;

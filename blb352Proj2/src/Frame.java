@@ -1,15 +1,19 @@
-package blb352Proj2;
+import java.util.Date;
 
 public class Frame {
 	private int id;
 	private int byteStart;
 	private int byteEnd;
+	private int pageNumber;
+	private Date inserted;
 	private boolean inUse;
 	
 	public Frame(int number, int start, int end) {
 		id = number;
 		byteStart = start;
 		byteEnd = end;
+		pageNumber = -1;
+		inserted = new Date();
 		inUse = false;
 	}
 
@@ -43,5 +47,21 @@ public class Frame {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public int getPageNumber() {
+		return pageNumber;
+	}
+
+	public void setPageNumber(int pageNumber) {
+		this.pageNumber = pageNumber;
+	}
+
+	public Date getInserted() {
+		return inserted;
+	}
+
+	public void setInserted(Date inserted) {
+		this.inserted = inserted;
 	}
 }

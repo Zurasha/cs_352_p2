@@ -1,4 +1,4 @@
-package blb352Proj2;
+
 
 public class MemoryManagerThread extends Thread {
 	private Thread t;
@@ -31,19 +31,24 @@ public class MemoryManagerThread extends Thread {
 	/**
 	 * Handle the address and output or call the fault handler as needed
 	 * @param address
-	 * @param processId
+	 * @param processName
 	 */
-	public void handleAddress(int address, int processId) {
-		int index = address/VMsim.mainMemory.getFrameSize();
+	public boolean handleAddress(int address, String processName) {
+		int page = address/VMsim.mainMemory.getFrameSize(); // Check if address divided by page/frame size is > page/frame size if so break
 		int offset = address % VMsim.mainMemory.getFrameSize();
 		
-		if (VMsim.mainMemory.isFrameInUse(index)) {
-			System.out.println("" + processId);
+		if (page > VMsim.pageCount) {
+			return false;
+		}
+		
+		if (VMsim.mainMemory.isFrameInUse(page)) {
+			System.out.println(processName);
 		} else {
 			FaultHandlerThread faultHan = (FaultHandlerThread) VMsim.threadMap.get("fault_handler");
 			// Delay until the faultHandler is ready to handle another thread
 			while (faultHan.getInUse()) {}
-			faultHan.handle(index, offset);
+			faultHan.handle(page, offset);
 		}
+		return true;
 	}
 }

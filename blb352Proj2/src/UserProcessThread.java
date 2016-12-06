@@ -1,4 +1,4 @@
-package blb352Proj2;
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -28,7 +28,10 @@ public class UserProcessThread extends Thread {
 	            	if (line.length() > 0) { // Make sure there is an address in the line
 	            		address = Integer.parseInt(line);
 	            		MemoryManagerThread memMan = (MemoryManagerThread) VMsim.threadMap.get("memory_manager");
-	            		memMan.handleAddress(address, userProcessNumber);
+	            		if (memMan.handleAddress(address, threadName)) {
+	            			System.out.println(threadName + " Attempted to access a page greater than max pages allowed");
+	            			break;
+	            		}
 	            	}
 	            }
 	        } catch (IOException e) {
