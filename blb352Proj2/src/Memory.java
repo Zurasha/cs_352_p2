@@ -66,7 +66,7 @@ public class Memory {
 	}
 	
 	/**
-	 * Finds the least resently used frame and returns the index
+	 * Finds the least recently used frame and returns the index
 	 * @return int
 	 */
 	private int findLRUFrame() {
