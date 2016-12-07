@@ -1,5 +1,10 @@
 import java.util.Date;
 
+/**
+ * Frame stores all relevant information required to be a frame
+ * @author Bryce
+ *
+ */
 public class Frame {
 	private int id;
 	private int byteStart;

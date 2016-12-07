@@ -31,8 +31,8 @@ public class VMsim {
 		threadMap.putIfAbsent("memory_manager", new MemoryManagerThread("memory_manager"));
 		threadMap.putIfAbsent("fault_handler", new FaultHandlerThread("fault_handler"));
 		
-		String path = "";
-		
+		String path = ""; // Was just in case the path to the file needed to be added at some point
+		// Handles retrieving all addresses and handing them off to the appropriate threads
 		for (int i = 0; i < userProcessCount; i++) {
 			ArrayList<Address> addresses = new ArrayList<Address>();
 			BufferedReader br = null;

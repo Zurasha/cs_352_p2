@@ -19,6 +19,11 @@ public class FaultHandlerThread extends Thread {
 		}
 	}
 	
+	/**
+	 * Handles faults and calls frame replacement to make sure that frames are being updated with the correct pages
+	 * @param address
+	 * @param processName
+	 */
 	public void handle(Address address, String processName) {
 		String message = "";
 		System.out.println(processName + " accesses address " + address.getAddress() + " (page number = " + address.getPage() + ", page offset = " + address.getOffset() + ") not in main memory."); // Not found in main memory
@@ -37,6 +42,12 @@ public class FaultHandlerThread extends Thread {
 		}
 	}
 	
+	/**
+	 * Simulates a swap including sleeping for a moment
+	 * @param processName
+	 * @param frameIndex
+	 * @param page
+	 */
 	private void simulateSwap(String processName, int frameIndex, int page) {
 		try {
 			System.out.println(processName + " issues an I/O operation to swap in demanded page (page number = " + page + ").");

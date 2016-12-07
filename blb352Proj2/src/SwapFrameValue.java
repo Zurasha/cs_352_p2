@@ -1,4 +1,8 @@
-
+/**
+ * A class used to pass the required data between certain functions to make for easier/cleaner code
+ * @author Bryce
+ *
+ */
 public class SwapFrameValue {
 	private int frameIndex;
 	private boolean wasFree;

@@ -18,6 +18,9 @@ public class UserProcessThread extends Thread {
 		addressList = addresses;
 	}
 	
+	/**
+	 * Goes through its list of addresses and call teh memory manager to handle checking for hits or to call fault handler
+	 */
 	public void run() {
 		for (int i = 0; i < addressList.size(); i++) {
 			MemoryManagerThread memMan = (MemoryManagerThread) VMsim.threadMap.get("memory_manager");

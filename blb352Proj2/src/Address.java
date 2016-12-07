@@ -1,4 +1,8 @@
-
+/**
+ * Class to store the address and it's parts
+ * @author Bryce
+ *
+ */
 public class Address {
 	private int address;
 	private int page;
