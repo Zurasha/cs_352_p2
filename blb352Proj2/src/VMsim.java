@@ -38,7 +38,7 @@ public class VMsim {
 			addressList.add(new ArrayList<Integer>());
 			BufferedReader br = null;
 	        try {
-	            br = new BufferedReader(new FileReader("trace_" + i + ".txt"));
+	            br = new BufferedReader(new FileReader("./trace_" + i + ".txt"));
 	            String line;
 	            while ((line = br.readLine()) != null) {
 	            	if (line.length() > 0) {
