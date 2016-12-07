@@ -34,14 +34,19 @@ public class Memory {
 		this.frameCount = frameCount;
 	}
 	
-	public boolean checkPageIfAvailable(int page) {
+	/**
+	 * Return 1 if it is found else -1
+	 * @param page
+	 * @return
+	 */
+	public int checkPageIfAvailable(int page) {
 		for (int i = 0; i < frameCount; i++) {
 			if (frameList[i].getPageNumber() == page) {
 				frameList[i].setInserted(new Date());
-				return true;
+				return i;
 			}
 		}
-		return false;
+		return -1;
 	}
 	
 	/**

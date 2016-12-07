@@ -11,17 +11,7 @@ public class MemoryManagerThread extends Thread {
 	}
 	
 	public void run() {
-		try {
-			// Needs to keep running till all user processes have been completed
-			// If the page is in the main memory output message, access mainMemory Vmsim.mainMemory
-			while (VMsim.finishedProcesses < VMsim.userProcessCount) {
-				
-			}
-		} catch (Exception e) {
-			System.out.println("Thread " +  threadName + " interrupted.");
-		}
-        // Adds to the numbers of completed processes
-        VMsim.finishedProcesses++;
+        return;
 	}
 	
 	public void start() {
@@ -35,26 +25,22 @@ public class MemoryManagerThread extends Thread {
 	 * @param address
 	 * @param processName
 	 */
-	public boolean handleAddress(int address, String processName) {
-		int page = 0, offset = 0;
-		boolean pageHit = false;
+	public boolean handleAddress(Address address, String processName) {
+		int pageHit = 0;
 		synchronized (mainMemory) {
-			page = address / mainMemory.getFrameSize();
-			offset = address % mainMemory.getFrameSize();
-			
 			// Check if address divided by page/frame size is > page/frame size if so break
-			if (page > VMsim.pageCount) {
+			if (address.getPage() > VMsim.pageCount) {
+				System.out.println(address.getPage() + "HERE");
 				return false;
 			}
-			
-			pageHit = mainMemory.checkPageIfAvailable(page);
+			pageHit = mainMemory.checkPageIfAvailable(address.getPage());
 		}
 		// Check if the address hits
-		if (pageHit) {
-			System.out.println(processName + " accesses address x (page number = p, page offset=d) in main memory (frame number = f). ");
+		if (pageHit > 0) {
+			System.out.println(processName + " accesses address " + address.getAddress() + " (page number = " + address.getPage() + ", page offset=" + address.getOffset() + ") in main memory (frame number = " + pageHit + "). ");
 		} else {
 			FaultHandlerThread faultHandler = (FaultHandlerThread) VMsim.threadMap.get("fault_handler");
-			faultHandler.handle(page, offset, processName);
+			faultHandler.handle(address, processName);
 		}
 		return true;
 	}

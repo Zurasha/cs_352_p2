@@ -10,9 +10,9 @@ public class UserProcessThread extends Thread {
 	private Thread t;
 	private String threadName;
 	private int userProcessNumber;
-	private ArrayList<Integer> addressList;
+	private ArrayList<Address> addressList;
 	
-	public UserProcessThread(String name, int number, ArrayList<Integer> addresses) {
+	public UserProcessThread(String name, int number, ArrayList<Address> addresses) {
 		threadName = name;
 		userProcessNumber = number;
 		addressList = addresses;
@@ -21,12 +21,12 @@ public class UserProcessThread extends Thread {
 	public void run() {
 		for (int i = 0; i < addressList.size(); i++) {
 			MemoryManagerThread memMan = (MemoryManagerThread) VMsim.threadMap.get("memory_manager");
-    		if (memMan.handleAddress(addressList.get(i).intValue(), threadName)) {
+    		if (!memMan.handleAddress(addressList.get(i), threadName)) {
     			System.out.println(threadName + " Attempted to access a page greater than max pages allowed");
     			break;
     		}
 		}
-		VMsim.finishedProcesses++;
+		return;
 	}
 	
 	public void start() {

@@ -9,16 +9,7 @@ public class FaultHandlerThread extends Thread {
 	}
 	
 	public void run() {
-		try {
-			// Needs to keep running till all user processes have been completed
-			while (VMsim.finishedProcesses < VMsim.userProcessCount) {
-				
-			}
-		} catch (Exception e) {
-			System.out.println("Thread " +  threadName + " interrupted.");
-		}
-        // Adds to the numbers of completed processes
-        VMsim.finishedProcesses++;
+        return;
 	}
 	
 	public void start() {
@@ -28,29 +19,29 @@ public class FaultHandlerThread extends Thread {
 		}
 	}
 	
-	public void handle(int page, int offset, String processName) {
+	public void handle(Address address, String processName) {
 		String message = "";
-		System.out.println(processName + " accesses address x (page number = p, page offset = d) not in main memory."); // Not found in main memory
+		System.out.println(processName + " accesses address " + address.getAddress() + " (page number = " + address.getPage() + ", page offset = " + address.getOffset() + ") not in main memory."); // Not found in main memory
 		
 		synchronized (mainMemory) {
-			SwapFrameValue swapValue = mainMemory.FrameReplace(page);
+			SwapFrameValue swapValue = mainMemory.FrameReplace(address.getPage());
 			
 			if (swapValue.isWasFree()) {
-				message = processName + " finds a free frame in main memory (frame number = f)."; // Add free frame replace message
+				message = processName + " finds a free frame in main memory (frame number = " + swapValue.getFrameIndex() + ")."; // Add free frame replace message
 			} else {
-				message = processName + " replaces a frame (frame number = f) from the main memory. "; // Add no free replace message
+				message = processName + " replaces a frame (frame number = " + swapValue.getFrameIndex() + ") from the main memory. "; // Add no free replace message
 			}
 			System.out.println(message);
-			simulateSwap(processName, swapValue.getFrameIndex(), page);
-			System.out.println(processName + " accesses address x (page number = p, page offset =d) in main memory (frame number = f)"); // Access the 
+			simulateSwap(processName, swapValue.getFrameIndex(), address.getPage());
+			System.out.println(processName + " accesses address " + address.getAddress() + " (page number = " + address.getPage() + ", page offset = " + address.getOffset() + ") in main memory (frame number = " + swapValue.getFrameIndex() + ")"); // Access the 
 		}
 	}
 	
 	private void simulateSwap(String processName, int frameIndex, int page) {
 		try {
-			System.out.println(processName + " issues an I/O operation to swap in demanded page (page number = p).");
+			System.out.println(processName + " issues an I/O operation to swap in demanded page (page number = " + page + ").");
 			t.sleep(1000);
-			System.out.println(processName + " demanded page (page number =p) has been swapped in main memory (frame number = f).");
+			System.out.println(processName + " demanded page (page number = " + page + ") has been swapped in main memory (frame number = " + frameIndex + ").");
 		} catch (InterruptedException e) {
 			return;
 		}

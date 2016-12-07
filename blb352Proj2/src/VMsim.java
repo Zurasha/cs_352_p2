@@ -15,7 +15,6 @@ import java.io.IOException;
 public class VMsim {
 	public static Memory mainMemory;
 	public static Map<String, Thread> threadMap = new ConcurrentHashMap<String, Thread>();
-	public static int finishedProcesses = 0; // Counter to track if all  processes are ended
 	public static int pageCount; // Max pages a process can use
 	public static int userProcessCount;
 	
@@ -32,17 +31,20 @@ public class VMsim {
 		threadMap.putIfAbsent("memory_manager", new MemoryManagerThread("memory_manager"));
 		threadMap.putIfAbsent("fault_handler", new FaultHandlerThread("fault_handler"));
 		
-		ArrayList<ArrayList<Integer>> addressList = new ArrayList<ArrayList<Integer>>(); // Store addresses for threads to process
+		String path = "";
 		
-		for (int i = 1; i <= userProcessCount; i++) {
-			addressList.add(new ArrayList<Integer>());
+		for (int i = 0; i < userProcessCount; i++) {
+			ArrayList<Address> addresses = new ArrayList<Address>();
 			BufferedReader br = null;
 	        try {
-	            br = new BufferedReader(new FileReader("./trace_" + i + ".txt"));
+	            br = new BufferedReader(new FileReader(path + "trace_" + (i+1) + ".txt"));
 	            String line;
 	            while ((line = br.readLine()) != null) {
 	            	if (line.length() > 0) {
-	            		addressList.get(i).add(Integer.parseInt(line));
+	            		int address = Integer.parseInt(line);
+	            		int page = address / frameSize;
+	        			int offset = address % frameSize;
+	            		addresses.add(new Address(address, page, offset));
 	            	}
 	            }
 	        } catch (IOException e) {
@@ -56,11 +58,12 @@ public class VMsim {
 	                ex.printStackTrace();
 	            }
 	        }
+	        // Skips a process if nothing is required
+	        if (addresses.size() > 0) {
+	        	threadMap.putIfAbsent("process_" + (i+1), new UserProcessThread("[Process " + (i+1) + "]", (i+1), addresses));
+	        }
 		}
 		
-		for (int i = 1; i <= userProcessCount; i++) {
-			threadMap.putIfAbsent("process_" + i, new UserProcessThread("[Process " + i + "]", i, addressList.get(i)));
-		}
 		// Start each user process
 		Iterator<String> iter = threadMap.keySet().iterator();
 		
@@ -68,10 +71,6 @@ public class VMsim {
 		while (iter.hasNext()) {
 			String key = iter.next();
 			threadMap.get(key).start();
-		}
-		
-		while (finishedProcesses < userProcessCount + 2) {
-			// Prevent the thread from closing until all processes are complete
 		}
 	}
 }
