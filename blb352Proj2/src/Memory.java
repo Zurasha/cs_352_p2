@@ -11,10 +11,10 @@ public class Memory {
 	public Memory(int size, int count) {
 		frameSize = size;
 		frameCount = count;
+		frameList = new Frame[frameCount];
 		
 		for (int i = 0; i < frameCount; i++) {
-			Frame frame = new Frame(i, i*frameSize, (i+1)*frameSize - 1);
-			frameList[i] = frame;
+			frameList[i] = new Frame(i, i*frameSize, (i+1)*frameSize - 1);
 		}
 	}
 
